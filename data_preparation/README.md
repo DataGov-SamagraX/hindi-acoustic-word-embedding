@@ -29,7 +29,7 @@ Audio file must be in .wav format and along with its correct hindi-transcript.
 ```
 **CLI usage**
 
-Navigate to the data_prepeartion folder and run
+Navigate to the data_preparation folder and run
 
       python3 cli.py <input_folder_path> transcipt <output_folder_path>
 
