@@ -8,21 +8,19 @@ from model import Model
 from audio import load_audio,SAMPLE_RATE
 from utils import Point,Segment
 
-def _load_model():
-
-    if Model._instance is not None:
-        return Model._instance
-    else:
-        return Model() 
-
-def _extract_base(path):
-    
-    filename = os.path.basename(path)
-    return os.path.splitext(filename)[0]
-
-
 
 def force_align(input_path:str,transcript:str,output_dir:str):
+    """
+    Perform force alignment on the input audio file with the given transcript.
+
+    Args:
+    input_path (str): The path to the input audio file.
+    transcript (str): The transcript to align with the audio.
+    output_dir (str): The directory to save the output alignment files.
+
+    Returns:
+    None
+    """
     
     model=_load_model()
 
@@ -78,7 +76,19 @@ def force_align(input_path:str,transcript:str,output_dir:str):
 
     print(f"Force Alignment complete files save at {folder_path}")
 
+
 def compose_graph(emission,tokens,blank_id=0):
+    """
+    Compose a graph for force alignment using emission probabilities.
+
+    Args:
+    emission (torch.Tensor): Emission probabilities.
+    tokens (list): List of token IDs.
+    blank_id (int, optional): ID of the blank token. Defaults to 0.
+
+    Returns:
+    torch.Tensor: The composed graph.
+    """
 
     num_frame=emission.size(0)
     num_tokens=len(tokens)
@@ -95,7 +105,19 @@ def compose_graph(emission,tokens,blank_id=0):
         
     return graph 
 
-def backtrack(graph,emission,tokens,blank_id=0): 
+def backtrack(graph,emission,tokens,blank_id=0):
+    """
+    Backtrack to find the most probable path in the graph.
+
+    Args:
+    graph (torch.Tensor): Composed graph.
+    emission (torch.Tensor): Emission probabilities.
+    tokens (list): List of token IDs.
+    blank_id (int, optional): ID of the blank token. Defaults to 0.
+
+    Returns:
+    list: The most probable paths, Point objects.
+    """ 
 
     t,j=graph.size(0)-1,graph.size(1)-1
 
@@ -128,6 +150,16 @@ def backtrack(graph,emission,tokens,blank_id=0):
     return path[::-1]
 
 def merge_repeats(path,transcript):
+    """
+    Merge repeated segments in the path.
+
+    Args:
+    path (list): List of points in the path.
+    transcript (str): The transcript corresponding to the path.
+
+    Returns:
+    list: Merged segments.
+    """
     i1,i2=0,0
     segments=[]
     while i1<len(path):
@@ -148,6 +180,17 @@ def merge_repeats(path,transcript):
     return segments
 
 def merge_words(segments, separator="|"):
+    """
+    Merge word segments.
+
+    Args:
+    segments (list): List of segments.
+    separator (str, optional): Separator for merging. Defaults to "|".
+
+    Returns:
+    list: Merged word segments.
+    """
+    
     words = []
     i1, i2 = 0, 0
     while i1 < len(segments):
@@ -165,17 +208,40 @@ def merge_words(segments, separator="|"):
 
 
 def generate_audio_segments(wave_form,graph,word_segments,sample_rate):
+    """
+    Generate audio segments.
 
-  ratio=wave_form.shape[0]/graph.size(0)
-  audio_segments=[]
+    Args:
+    wave_form (numpy.ndarray): Audio waveform.
+    graph (torch.Tensor): Composed graph.
+    word_segments (list): List of word segments.
+    sample_rate (int): Sampling rate of the audio.
 
-  for i in range(len(word_segments)):
-    word=word_segments[i]
-    x0=int(ratio*word.start)
-    x1=int(ratio*word.end)
-    time_interval=f"{x0/ sample_rate:.3f}-{x1/sample_rate:.3f} sec"
-    audio_seg=wave_form[x0:x1]
-    audio_segments.append((word.label,time_interval,audio_seg))
+    Returns:
+    list: List of audio segments.
+    """
 
-  return audio_segments
+    ratio=wave_form.shape[0]/graph.size(0)
+    audio_segments=[]
 
+    for i in range(len(word_segments)):
+        word=word_segments[i]
+        x0=int(ratio*word.start)
+        x1=int(ratio*word.end)
+        time_interval=f"{x0/ sample_rate:.3f}-{x1/sample_rate:.3f} sec"
+        audio_seg=wave_form[x0:x1]
+        audio_segments.append((word.label,time_interval,audio_seg))
+
+    return audio_segments
+
+def _load_model():
+
+    if Model._instance is not None:
+        return Model._instance
+    else:
+        return Model() 
+
+def _extract_base(path):
+    
+    filename = os.path.basename(path)
+    return os.path.splitext(filename)[0]
