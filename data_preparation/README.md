@@ -29,7 +29,7 @@ Audio file must be in .wav format and along with its correct hindi-transcript.
 ```
 **CLI usage**
 
-Navigate to the data_prepeartion folder and run
+Navigate to the data_preparation folder and run
 
       python3 cli.py <input_folder_path> transcipt <output_folder_path>
 
@@ -42,17 +42,17 @@ The aligned audios will be saved inside the specified folder and the directory s
             |            |____ segment_0.wav
             |            |____ segment_1.wav
                          |____ metadat.json 
-schema for matadata.json will be 
+schema for metadata.json will be 
 ```json
-{
+[{
     "original_file_name": original_file_name,
     "original_file_path": original_file_path,
     "original_transcript": original_transcript,
     "audio_segments": [
-    {"word_label": "और", "file_path": "/path/to/segment_0.wav", "duration": 2.5},
-    {"word_label": "अपने", "file_path": "/path/to/segment_1.wav", "duration": 3.0},
-    {"word_label": "पेट", "file_path": "/path/to/segment_2.wav", "duration": 4.2}
+          {"word_label": "और", "file_path": "/path/to/segment_0.wav", "duration": 2.5},
+          {"word_label": "अपने", "file_path": "/path/to/segment_1.wav", "duration": 3.0},
+          {"word_label": "पेट", "file_path": "/path/to/segment_2.wav", "duration": 4.2}
      ]
-}
+}]
             
 
