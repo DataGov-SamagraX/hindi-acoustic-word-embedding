@@ -7,12 +7,12 @@
       "num_layers": 2,
       "bidirectional": true,
       "dropout": 0.2,
-      "proj": 512
+      "proj": 1024
     },
     "view2": {
       "cell_type": "gru",
       "num_embeddings": 10000,
-      "input_size": 300,
+      "input_size": 70,
       "hidden_size": 512,
       "num_layers": 2,
       "bidirectional": true,
@@ -20,5 +20,5 @@
       "proj": 512
     },
     "proj": 128,
-    "loss_fn": "nll"
-  }
+    "loss_fn": [0,1,2,3]
+}

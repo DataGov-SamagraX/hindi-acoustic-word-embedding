@@ -48,11 +48,11 @@ class RNN_default(nn.Module):
         else:
             raise ValueError("Invalid RNN cell type")
         
-        if proj is not None:
+        """if proj is not None:
             self.output_size=proj
             self.linear=nn.Linear(hidden_size*2 if bidirectional else hidden_size,proj)
         else:
-            self.output_size=hidden_size*2 if bidirectional else hidden_size
+            self.output_size=hidden_size*2 if bidirectional else hidden_size"""
     
     def reset_parameters(self):
         if self.init_type == "kaiming_uniform":
@@ -90,21 +90,16 @@ class RNN_default(nn.Module):
         else:
             raise ValueError(f"Invalid initialization type: {self.init_type}")
     
-    def forward(self,x,lens=None):
-
-        if lens is not None:
-            x=nn.utils.rnn.pack_padded_sequence(x,lens,batch_first=True)
+    def forward(self,x):
         
-        rnn_out,_=self.rnn(x)
+        rnn_out,(h_n,c_n)=self.rnn(x)
 
-        if lens is not None:
-            rnn_out,_=nn.utils.rnn.pad_packed_sequence(rnn_out,batch_first=True)
-        if self.bidirectional:
-            rnn_out=torch.cat((rnn_out[:,:,:self.hidden_size],rnn_out[:,:,self.hidden_size:]),dim=2)
-        if self.proj is not None:
-            rnn_out=self.linear(rnn_out)
+        out=torch.cat((h_n[-1],h_n[-2]),dim=1)
         
-        return rnn_out, lens 
+        """if self.proj is not None:
+            rnn_out=self.linear(rnn_out)"""
+        
+        return out 
 
 class Linear(nn.Module):
     def __init__(self, input_size, output_size,init_type):
@@ -176,13 +171,11 @@ class MultiViewRNN(nn.Module):
                                       init_type=self.init_type
                                       )
         
-        if "proj" in config and config["proj"] is not None:
+        """if "proj" in config and config["proj"] is not None:
 
             log.info(f"proj:")
-            self.net["proj"]=Linear(self.net["view1"].output_size,config["proj"],init_type=self.init_type)
+            self.net["proj"]=Linear(self.net["view1"].output_size,config["proj"],init_type=self.init_type)"""
 
-        if "loss_fn" in config and config["loss_fn"] is not None:
-            self.loss_fn=config["loss_fn"]
     
     @property
     def output_size(self):
@@ -200,7 +193,7 @@ class MultiViewRNN(nn.Module):
 
         if "proj" in self.net:
             view1_out=self.net["proj"](view1_out)
-            view2_out=self.net["proj"][view2_out]
+            view2_out=self.net["proj"](view2_out)
 
 
         return view1_out,view1_out
@@ -209,4 +202,11 @@ if __name__=="__main__":
 
     model=MultiViewRNN("config.json")
 
-    print(model)
+    view1_in=torch.randn((32,68,39))
+    view2_in=torch.randn((32,68,70))
+
+    data_dict={"view1":view1_in,"view2":view2_in}
+
+    emb1,emb2=model(data_dict)
+
+    print(emb1.shape,emb2.shape)
