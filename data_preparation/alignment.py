@@ -3,78 +3,115 @@ import numpy as np
 import json  
 import os 
 from scipy.io.wavfile import write
+import pandas as pd 
 
 from model import Model 
 from audio import load_audio,SAMPLE_RATE
 from utils import Point,Segment
 
 
-def force_align(input_path:str,transcript:str,output_dir:str):
-    """
-    Perform force alignment on the input audio file with the given transcript.
+def force_align(self,input_path:str,transcript:str,output_dir:str,alignment_duration=None):
+        """
+        Perform force alignment on the input audio file with the given transcript.
+        Args:
+        input_path (str): The path to the input audio file.
+        transcript (str): The transcript to align with the audio.
+        output_dir (str): The directory to save the output alignment files.
+        Returns:
+        None
+        """
+        #loading_audio
+        audio=load_audio(input_path)
+        token_ids=self.model.tokenize(transcript)
+        preprocessed_transcript=transcript.replace(" ","|")
 
-    Args:
-    input_path (str): The path to the input audio file.
-    transcript (str): The transcript to align with the audio.
-    output_dir (str): The directory to save the output alignment files.
+        #force_alignment
+        emission=self.model.inference(audio)
+        graph=self._compose_graph(emission,token_ids)
+        path=self._backtrack(graph,emission,token_ids)
+        segments =self._merge_repeats(path,preprocessed_transcript)
 
-    Returns:
-    None
-    """
-    
-    model=_load_model()
+        #folder
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
 
-    #loading_audio
-    audio=load_audio(input_path)
-    token_ids=model.tokenize(transcript)
-    preprocessed_transcript=transcript.replace(" ","|")
+        folder_path=os.path.join(output_dir,self._extract_base(input_path))
+        json_path=os.path.join(folder_path,"metadata.json")
 
-    #force_alignment
-    emission=model.inference(audio)
-    graph=compose_graph(emission,token_ids)
-    path=backtrack(graph,emission,token_ids)
-    segments = merge_repeats(path,preprocessed_transcript)
-    word_segments=merge_words(segments)
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
 
-    #preparing audio segments
-    json_dict={}
-    segment_list=[]
+        if alignment_duration:
 
-    audio_segments=generate_audio_segments(audio,graph,word_segments,SAMPLE_RATE)
-    
-    #saving segments in the oupt_dir 
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    
-    folder_path=os.path.join(output_dir,_extract_base(input_path))
-    
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
-    
-    json_path=os.path.join(folder_path,"metadata.json")
-    segment_paths=[]
-    for i in range(len(audio_segments)):
-        segment_paths.append(os.path.join(folder_path,f"segment_{i}.wav"))
-    
-    
-    for i in range(len(segment_paths)):
-        segment_dict={}
-        segment_dict["word_label"]=audio_segments[i][0]
-        segment_dict["duration"]=audio_segments[i][1]
-        segment_dict["file_path"]=segment_paths[i]
-        segment_list.append(segment_dict)
+            dur_segment=self._get_seg_duration(segments,SAMPLE_RATE,audio,graph)
+            segment_chunks,audio_segments=self._chunk_and_merge_segments(dur_segment,alignment_duration)
 
-        wave_form=audio_segments[i][2]
-        write(segment_paths[i],8000,wave_form)
-    
-    json_dict["original_file_path"]=input_path
-    json_dict["original_transcript"]=transcript
-    json_dict["audio_segments"]=segment_list 
+            ratio=audio.shape[0]/graph.size(0)
+            transcripts=[]
+            time_duration=[]
+            for segment_chunk in segment_chunks:
+                word_list=self._merge_words(segment_chunk)
+                #print(word_list)
+                transcripts.append(self._merge_transcript(word_list))
+                x0=int(segment_chunk[0].start*ratio)
+                x1=int(segment_chunk[-1].start*ratio)
+                x0=x0/SAMPLE_RATE
+                x1=x1/SAMPLE_RATE
+                time_duration.append(f"{x0:.3f}-{x1:.3f} sec")
 
-    with open(json_path,'w') as json_file:
-        json.dump(json_dict,json_file,indent=4)
+            json_dict={}
+            segment_list=[]
+            segment_paths=[]
+            for i in range(len(audio_segments)):
+                segment_paths.append(os.path.join(folder_path,f"segment_{i}.wav"))
 
-    print(f"Force Alignment complete files save at {folder_path}")
+            for i in range(len(segment_chunks)):
+                segment_dict={}
+                segment_dict["transcript"]=transcripts[i]
+                segment_dict["duration"]=time_duration[i]
+                segment_dict["file_path"]=segment_paths[i]
+                segment_list.append(segment_dict)
+                wave_form=audio_segments[i]
+                write(segment_paths[i],8000,wave_form)
+
+            json_dict["original_file_path"]=input_path
+            json_dict["original_transcript"]=transcript
+            json_dict["audio_segments"]=segment_list
+
+        else:
+
+            word_segments=self._merge_words(segments)
+
+            #preparing audio segments
+            json_dict={}
+            segment_list=[]
+
+            audio_segments=self._generate_audio_segments(audio,graph,word_segments,SAMPLE_RATE)
+
+            segment_paths=[]
+            for i in range(len(audio_segments)):
+                segment_paths.append(os.path.join(folder_path,f"segment_{i}.wav"))
+
+
+            for i in range(len(segment_paths)):
+                segment_dict={}
+                segment_dict["word_label"]=audio_segments[i][0]
+                segment_dict["duration"]=audio_segments[i][1]
+                segment_dict["file_path"]=segment_paths[i]
+                segment_list.append(segment_dict)
+
+                wave_form=audio_segments[i][2]
+                write(segment_paths[i],8000,wave_form)
+
+            json_dict["original_file_path"]=input_path
+            json_dict["original_transcript"]=transcript
+            json_dict["audio_segments"]=segment_list 
+
+        with open(json_path,'w') as json_file:
+            json.dump(json_dict,json_file,indent=4)
+
+        #print(f"Force Alignment complete files save at {folder_path}")
+
 
 
 def compose_graph(emission,tokens,blank_id=0):
@@ -234,6 +271,62 @@ def generate_audio_segments(wave_form,graph,word_segments,sample_rate):
 
     return audio_segments
 
+def get_seg_duration(self,segments,sample_rate,audio,graph):
+
+        ratio=audio.shape[0]/graph.size(0)
+        dur_segment=[]
+        for segment in segments:
+            dict={}
+            x0=int(ratio*segment.start)
+            x1=int(ratio*segment.end)
+            start_time=x0/sample_rate
+            end_time=x1/sample_rate
+            dict["start_dur"]=start_time
+            dict["end_dur"]=end_time
+            dict["audio_segment"]=audio[x0:x1]
+            dur_segment.append((segment,dict))
+
+        return dur_segment
+
+def _chunk_and_merge_segments(self,segments,chunk_duration):
+
+        segment_chunks=[]
+        current_chunk=[]
+        audio_chunks=[]
+        current_audio_segment=[]
+        current_duration=0.0
+
+        for segment,duration_info in segments:
+
+            start_dur=duration_info['start_dur']
+            end_dur=duration_info['end_dur']
+            audio_seg=duration_info['audio_segment']
+            duration=end_dur - start_dur
+
+            if current_duration+duration > chunk_duration:
+                segment_chunks.append(current_chunk)
+                audio_chunks.append(np.concatenate(current_audio_segment))
+                current_chunk=[]
+                current_audio_segment=[]
+                current_duration=0.0
+
+            current_chunk.append(segment)
+            current_audio_segment.append(audio_seg)
+            current_duration+=duration
+
+        if current_chunk:
+            segment_chunks.append(current_chunk)
+            audio_chunks.append(np.concatenate(current_audio_segment))
+
+        return segment_chunks, audio_chunks
+
+def merge_transcript(self,word_list):
+
+        transcript=" "
+        for word in word_list:
+            transcript+=word.label
+        return transcript
+
 def _load_model():
 
     if Model._instance is not None:
@@ -245,3 +338,4 @@ def _extract_base(path):
     
     filename = os.path.basename(path)
     return os.path.splitext(filename)[0]
+

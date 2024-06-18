@@ -1,24 +1,28 @@
 {
-    "init_type": "kaiming_uniform",
-    "view1": {
-      "cell_type": "lstm",
-      "input_size": 39,
-      "hidden_size": 512,
-      "num_layers": 2,
-      "bidirectional": true,
-      "dropout": 0.2,
-      "proj": 1024
-    },
-    "view2": {
-      "cell_type": "gru",
-      "num_embeddings": 10000,
-      "input_size": 70,
-      "hidden_size": 512,
-      "num_layers": 2,
-      "bidirectional": true,
-      "dropout": 0.2,
-      "proj": 512
-    },
-    "proj": 128,
-    "loss_fn": [0,1,2,3]
+  "init_type": "kaiming_uniform",
+  "view1": {
+    "cell_type": "lstm",
+    "input_size": 39,
+    "hidden_size": 512,
+    "num_layers": 2,
+    "bidirectional": true,
+    "dropout": 0.2,
+    "proj": 1024
+  },
+  "view2": {
+    "cell_type": "lstm",
+    "num_embeddings": 10000,
+    "input_size": 83,
+    "hidden_size": 512,
+    "num_layers": 2,
+    "bidirectional": true,
+    "dropout": 0.2,
+    "proj": 512
+  },
+  "proj": 128,
+  "loss_fn":[0],
+  "margin":0.5,
+  "lr":3e-4,
+  "batch_size":4,
+  "num_epochs":20
 }

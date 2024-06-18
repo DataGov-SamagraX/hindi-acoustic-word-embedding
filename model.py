@@ -47,12 +47,6 @@ class RNN_default(nn.Module):
             )
         else:
             raise ValueError("Invalid RNN cell type")
-        
-        """if proj is not None:
-            self.output_size=proj
-            self.linear=nn.Linear(hidden_size*2 if bidirectional else hidden_size,proj)
-        else:
-            self.output_size=hidden_size*2 if bidirectional else hidden_size"""
     
     def reset_parameters(self):
         if self.init_type == "kaiming_uniform":
@@ -96,8 +90,6 @@ class RNN_default(nn.Module):
 
         out=torch.cat((h_n[-1],h_n[-2]),dim=1)
         
-        """if self.proj is not None:
-            rnn_out=self.linear(rnn_out)"""
         
         return out 
 
@@ -141,8 +133,11 @@ class MultiViewRNN(nn.Module):
 
         nn.Module.__init__(self)
 
-        with open(config_file,"r") as f:
-            config=json.load(f)
+        if isinstance(config_file,str):
+            with open(config_file,"r") as f:
+                config=json.load(f)
+        else:
+            config=config_file
 
         self.net=nn.ModuleDict()
         self.init_type=config["init_type"]
@@ -161,6 +156,7 @@ class MultiViewRNN(nn.Module):
         
         log.info(f"view2:")
         view2_config=config["view2"]
+        #TODO: adding nn.embedding layer in view2 
         self.net["view2"]=RNN_default(cell_type=view2_config["cell_type"],
                                       input_size=view2_config["input_size"],
                                       hidden_size=view2_config["hidden_size"],
@@ -170,12 +166,7 @@ class MultiViewRNN(nn.Module):
                                       proj=view2_config["proj"],
                                       init_type=self.init_type
                                       )
-        
-        """if "proj" in config and config["proj"] is not None:
-
-            log.info(f"proj:")
-            self.net["proj"]=Linear(self.net["view1"].output_size,config["proj"],init_type=self.init_type)"""
-
+        #TODO:adding projection layer in both views(optional)
     
     @property
     def output_size(self):
@@ -185,18 +176,31 @@ class MultiViewRNN(nn.Module):
             return self.net["view1"].output_size
          
     def forward(self,batch):
-        view1_in=batch["view1"]
-        view2_in=batch["view2"]
+        view1_in_x1=batch["view1_x1"]
+        view2_in_c1=batch["view2_c1"]
+        out_dict={}
 
-        view1_out,_=self.net["view1"](view1_in)
-        view2_out,_=self.net["view2"](view2_in)
+        if "view1_x2" in batch:
+            view1_in_x2=batch["view2_x2"]
+            view1_out_x2=self.net["view1"](view1_in_x2)
+            out_dict["x2"]=view1_out_x2
+        else:
+            out_dict["x2"]=None
+        
+        if "view2_c2" in batch:
+            view2_in_c2=batch["view2_c2"]
+            view2_out_c2=self.net["view2"](view2_in_c2)
+            out_dict["c2"]=view2_out_c2
+        else:
+            out_dict["c2"]=None 
 
-        if "proj" in self.net:
-            view1_out=self.net["proj"](view1_out)
-            view2_out=self.net["proj"](view2_out)
+        view1_out_x1=self.net["view1"](view1_in_x1)
+        view2_out_c1=self.net["view2"](view2_in_c1)
 
+        out_dict["x1"]=view1_out_x1
+        out_dict["c1"]=view2_out_c1
 
-        return view1_out,view1_out
+        return out_dict
 
 if __name__=="__main__":
 
@@ -205,8 +209,9 @@ if __name__=="__main__":
     view1_in=torch.randn((32,68,39))
     view2_in=torch.randn((32,68,70))
 
-    data_dict={"view1":view1_in,"view2":view2_in}
+    data_dict={"view1_x1":view1_in,"view2_c1":view2_in}
 
-    emb1,emb2=model(data_dict)
+    out=model(data_dict)
 
-    print(emb1.shape,emb2.shape)
+    print(out["x1"].shape,out["c1"].shape)
+

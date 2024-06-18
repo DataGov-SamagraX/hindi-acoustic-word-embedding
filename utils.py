@@ -2,6 +2,8 @@ import torch
 import subprocess 
 import json 
 import numpy as np
+import os
+
 
 def load_audio():
     pass 
@@ -9,10 +11,16 @@ def load_audio():
 def average_precision():
     pass 
 
-def save_checkpoint(state,filename="my_checkpoint.pth.tar"):
+def save_checkpoint(state,filename):
     print("=> saving checkpoint")
+
+    checkpoint_dir = "checkpoints"
+    if not os.path.exists(checkpoint_dir):
+        os.makedirs(checkpoint_dir)
     
-    torch.save(state,filename)
+    filepath = os.path.join(checkpoint_dir, filename)
+    print(f"=> Saving checkpoint to {filepath}")
+    torch.save(state, filepath)
     
 def load_checkpoint(checkpoint,model,optimizer):
     
@@ -35,4 +43,14 @@ def _load_vocab():
         json_file=json.load(f)
     
     return dict(json_file)
+
+
+def extract_root_path(file_path):
+    directory = os.path.dirname(file_path)
+    
+    parts = directory.split(os.path.sep)
+    
+    root_directory_path = os.path.join(parts[0], parts[1])
+    
+    return root_directory_path
 
