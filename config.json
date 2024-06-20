@@ -23,6 +23,7 @@
   "loss_fn":[0],
   "margin":0.5,
   "lr":3e-4,
-  "batch_size":4,
+  "train_batch_size":4,
+  "dev_batch_size":4,
   "num_epochs":20
 }

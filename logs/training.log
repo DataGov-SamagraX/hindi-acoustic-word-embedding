@@ -20,3 +20,179 @@
 2024-06-17 16:43:35,967 - INFO - Epoch: 18, Avg_loss: 0.000, Duration: 0.48s
 2024-06-17 16:43:39,708 - INFO - Epoch: 19, Avg_loss: 0.030, Duration: 0.56s
 2024-06-17 16:43:42,850 - INFO - Epoch: 20, Avg_loss: 0.028, Duration: 0.48s
+2024-06-19 14:36:00,812 - INFO - view1:
+2024-06-19 14:36:00,953 - INFO - view2:
+2024-06-19 14:38:26,121 - INFO - view1:
+2024-06-19 14:38:26,169 - INFO - view2:
+2024-06-19 14:38:37,288 - INFO - Epoch: 1, Avg_loss: 0.506, Duration: 8.19s
+2024-06-19 14:38:38,704 - INFO - Epoch: 2, Avg_loss: 0.448, Duration: 0.67s
+2024-06-19 14:38:39,808 - INFO - Epoch: 3, Avg_loss: 0.289, Duration: 0.45s
+2024-06-19 14:38:40,634 - INFO - Epoch: 4, Avg_loss: 0.429, Duration: 0.42s
+2024-06-19 14:38:41,981 - INFO - Epoch: 5, Avg_loss: 0.233, Duration: 0.44s
+2024-06-19 14:38:42,765 - INFO - Epoch: 6, Avg_loss: 0.126, Duration: 0.42s
+2024-06-19 14:38:43,628 - INFO - Epoch: 7, Avg_loss: 0.197, Duration: 0.42s
+2024-06-19 14:38:44,443 - INFO - Epoch: 8, Avg_loss: 0.109, Duration: 0.43s
+2024-06-19 14:38:45,308 - INFO - Epoch: 9, Avg_loss: 0.041, Duration: 0.46s
+2024-06-19 14:38:46,156 - INFO - Epoch: 10, Avg_loss: 0.036, Duration: 0.45s
+2024-06-19 14:38:46,993 - INFO - Epoch: 11, Avg_loss: 0.095, Duration: 0.43s
+2024-06-19 14:38:47,832 - INFO - Epoch: 12, Avg_loss: 0.065, Duration: 0.42s
+2024-06-19 14:38:49,037 - INFO - Epoch: 13, Avg_loss: 0.045, Duration: 0.42s
+2024-06-19 14:38:49,819 - INFO - Epoch: 14, Avg_loss: 0.069, Duration: 0.42s
+2024-06-19 14:38:51,075 - INFO - Epoch: 15, Avg_loss: 0.029, Duration: 0.53s
+2024-06-19 14:38:51,923 - INFO - Epoch: 16, Avg_loss: 0.007, Duration: 0.43s
+2024-06-19 14:38:52,733 - INFO - Epoch: 17, Avg_loss: 0.020, Duration: 0.45s
+2024-06-19 14:38:54,559 - INFO - Epoch: 18, Avg_loss: 0.026, Duration: 0.46s
+2024-06-19 14:38:55,537 - INFO - Epoch: 19, Avg_loss: 0.032, Duration: 0.46s
+2024-06-19 14:38:56,892 - INFO - Epoch: 20, Avg_loss: 0.002, Duration: 0.47s
+2024-06-20 06:57:38,823 - INFO - view1:
+2024-06-20 06:57:38,885 - INFO - view2:
+2024-06-20 06:57:42,996 - INFO - Epoch: 1, Avg_loss: 0.508, Duration: 2.69s
+2024-06-20 06:57:44,456 - INFO - Epoch: 2, Avg_loss: 0.472, Duration: 0.81s
+2024-06-20 06:57:45,796 - INFO - Epoch: 3, Avg_loss: 0.312, Duration: 0.52s
+2024-06-20 06:57:47,241 - INFO - Epoch: 4, Avg_loss: 0.364, Duration: 0.65s
+2024-06-20 06:57:48,443 - INFO - Epoch: 5, Avg_loss: 0.187, Duration: 0.55s
+2024-06-20 06:57:49,410 - INFO - Epoch: 6, Avg_loss: 0.210, Duration: 0.55s
+2024-06-20 06:57:50,393 - INFO - Epoch: 7, Avg_loss: 0.124, Duration: 0.55s
+2024-06-20 06:57:51,463 - INFO - Epoch: 8, Avg_loss: 0.094, Duration: 0.65s
+2024-06-20 06:57:52,822 - INFO - Epoch: 9, Avg_loss: 0.037, Duration: 0.46s
+2024-06-20 06:57:53,963 - INFO - Epoch: 10, Avg_loss: 0.068, Duration: 0.53s
+2024-06-20 06:57:54,928 - INFO - Epoch: 11, Avg_loss: 0.027, Duration: 0.54s
+2024-06-20 06:57:55,871 - INFO - Epoch: 12, Avg_loss: 0.064, Duration: 0.51s
+2024-06-20 06:57:57,198 - INFO - Epoch: 13, Avg_loss: 0.045, Duration: 0.83s
+2024-06-20 06:57:58,254 - INFO - Epoch: 14, Avg_loss: 0.072, Duration: 0.62s
+2024-06-20 06:57:59,450 - INFO - Epoch: 15, Avg_loss: 0.120, Duration: 0.73s
+2024-06-20 06:58:00,754 - INFO - Epoch: 16, Avg_loss: 0.061, Duration: 0.85s
+2024-06-20 06:58:02,068 - INFO - Epoch: 17, Avg_loss: 0.030, Duration: 0.85s
+2024-06-20 06:58:03,345 - INFO - Epoch: 18, Avg_loss: 0.010, Duration: 0.85s
+2024-06-20 06:58:04,793 - INFO - Epoch: 19, Avg_loss: 0.048, Duration: 0.63s
+2024-06-20 06:58:05,939 - INFO - Epoch: 20, Avg_loss: 0.018, Duration: 0.71s
+2024-06-20 21:40:07,643 - INFO - view1:
+2024-06-20 21:40:07,691 - INFO - view2:
+2024-06-20 21:42:11,715 - INFO - view1:
+2024-06-20 21:42:11,763 - INFO - view2:
+2024-06-20 21:42:58,222 - INFO - view1:
+2024-06-20 21:42:58,270 - INFO - view2:
+2024-06-20 21:46:57,496 - INFO - view1:
+2024-06-20 21:46:57,544 - INFO - view2:
+2024-06-20 21:52:15,404 - INFO - view1:
+2024-06-20 21:52:15,452 - INFO - view2:
+2024-06-20 21:53:12,256 - INFO - view1:
+2024-06-20 21:53:12,304 - INFO - view2:
+2024-06-20 21:56:02,655 - INFO - view1:
+2024-06-20 21:56:02,704 - INFO - view2:
+2024-06-20 21:58:14,601 - INFO - view1:
+2024-06-20 21:58:14,649 - INFO - view2:
+2024-06-20 21:59:11,664 - INFO - view1:
+2024-06-20 21:59:11,713 - INFO - view2:
+2024-06-20 22:02:48,079 - INFO - view1:
+2024-06-20 22:02:48,128 - INFO - view2:
+2024-06-20 22:04:35,034 - INFO - view1:
+2024-06-20 22:04:35,083 - INFO - view2:
+2024-06-20 22:04:38,078 - INFO - Epoch: 1, Avg_loss: 0.519, Duration: 1.79s, Average_precission: 0.388
+2024-06-20 22:04:39,402 - INFO - Epoch: 2, Avg_loss: 0.454, Duration: 0.61s, Average_precission: 0.468
+2024-06-20 22:04:40,522 - INFO - Epoch: 3, Avg_loss: 0.354, Duration: 0.73s, Average_precission: 0.320
+2024-06-20 22:04:41,506 - INFO - Epoch: 4, Avg_loss: 0.314, Duration: 0.61s, Average_precission: 0.486
+2024-06-20 22:04:42,495 - INFO - Epoch: 5, Avg_loss: 0.230, Duration: 0.61s, Average_precission: 0.395
+2024-06-20 22:04:43,807 - INFO - Epoch: 6, Avg_loss: 0.071, Duration: 0.57s, Average_precission: 0.433
+2024-06-20 22:04:45,494 - INFO - Epoch: 7, Avg_loss: 0.148, Duration: 0.58s, Average_precission: 0.351
+2024-06-20 22:04:46,839 - INFO - Epoch: 8, Avg_loss: 0.070, Duration: 0.59s, Average_precission: 0.421
+2024-06-20 22:04:47,827 - INFO - Epoch: 9, Avg_loss: 0.078, Duration: 0.61s, Average_precission: 0.383
+2024-06-20 22:04:48,852 - INFO - Epoch: 10, Avg_loss: 0.050, Duration: 0.62s, Average_precission: 0.502
+2024-06-20 22:04:50,403 - INFO - Epoch: 11, Avg_loss: 0.053, Duration: 0.57s, Average_precission: 0.353
+2024-06-20 22:04:51,825 - INFO - Epoch: 12, Avg_loss: 0.054, Duration: 0.60s, Average_precission: 0.591
+2024-06-20 22:04:53,213 - INFO - Epoch: 13, Avg_loss: 0.045, Duration: 0.59s, Average_precission: 0.419
+2024-06-20 22:04:54,338 - INFO - Epoch: 14, Avg_loss: 0.025, Duration: 0.57s, Average_precission: 0.304
+2024-06-20 22:04:55,654 - INFO - Epoch: 15, Avg_loss: 0.017, Duration: 0.58s, Average_precission: 0.284
+2024-06-20 22:04:57,061 - INFO - Epoch: 16, Avg_loss: 0.053, Duration: 0.58s, Average_precission: 0.253
+2024-06-20 22:04:58,048 - INFO - Epoch: 17, Avg_loss: 0.009, Duration: 0.59s, Average_precission: 0.239
+2024-06-20 22:04:58,995 - INFO - Epoch: 18, Avg_loss: 0.036, Duration: 0.58s, Average_precission: 0.351
+2024-06-20 22:05:00,523 - INFO - Epoch: 19, Avg_loss: 0.045, Duration: 0.59s, Average_precission: 0.382
+2024-06-20 22:05:01,742 - INFO - Epoch: 20, Avg_loss: 0.032, Duration: 0.57s, Average_precission: 0.328
+2024-06-20 22:07:25,551 - INFO - view1:
+2024-06-20 22:07:25,600 - INFO - view2:
+2024-06-20 22:07:28,554 - INFO - Epoch: 1, Avg_loss: 0.508, Duration: 1.76s, Average_precission: 0.285
+2024-06-20 22:07:30,023 - INFO - Epoch: 2, Avg_loss: 0.461, Duration: 0.59s, Average_precission: 0.250
+2024-06-20 22:07:31,457 - INFO - Epoch: 3, Avg_loss: 0.389, Duration: 0.56s, Average_precission: 0.348
+2024-06-20 22:07:32,588 - INFO - Epoch: 4, Avg_loss: 0.286, Duration: 0.60s, Average_precission: 0.338
+2024-06-20 22:07:33,626 - INFO - Epoch: 5, Avg_loss: 0.198, Duration: 0.60s, Average_precission: 0.384
+2024-06-20 22:07:34,621 - INFO - Epoch: 6, Avg_loss: 0.149, Duration: 0.57s, Average_precission: 0.429
+2024-06-20 22:07:35,611 - INFO - Epoch: 7, Avg_loss: 0.123, Duration: 0.57s, Average_precission: 0.531
+2024-06-20 22:07:36,605 - INFO - Epoch: 8, Avg_loss: 0.213, Duration: 0.57s, Average_precission: 0.328
+2024-06-20 22:07:37,649 - INFO - Epoch: 9, Avg_loss: 0.051, Duration: 0.57s, Average_precission: 0.406
+2024-06-20 22:07:38,642 - INFO - Epoch: 10, Avg_loss: 0.044, Duration: 0.57s, Average_precission: 0.346
+2024-06-20 22:07:39,673 - INFO - Epoch: 11, Avg_loss: 0.032, Duration: 0.57s, Average_precission: 0.367
+2024-06-20 22:07:40,657 - INFO - Epoch: 12, Avg_loss: 0.075, Duration: 0.56s, Average_precission: 0.427
+2024-06-20 22:07:41,693 - INFO - Epoch: 13, Avg_loss: 0.036, Duration: 0.57s, Average_precission: 0.259
+2024-06-20 22:07:42,676 - INFO - Epoch: 14, Avg_loss: 0.094, Duration: 0.56s, Average_precission: 0.288
+2024-06-20 22:07:43,730 - INFO - Epoch: 15, Avg_loss: 0.013, Duration: 0.59s, Average_precission: 0.341
+2024-06-20 22:07:44,747 - INFO - Epoch: 16, Avg_loss: 0.030, Duration: 0.59s, Average_precission: 0.424
+2024-06-20 22:07:46,181 - INFO - Epoch: 17, Avg_loss: 0.010, Duration: 0.59s, Average_precission: 0.475
+2024-06-20 22:07:47,639 - INFO - Epoch: 18, Avg_loss: 0.061, Duration: 0.60s, Average_precission: 0.367
+2024-06-20 22:07:48,857 - INFO - Epoch: 19, Avg_loss: 0.012, Duration: 0.56s, Average_precission: 0.318
+2024-06-20 22:07:49,936 - INFO - Epoch: 20, Avg_loss: 0.009, Duration: 0.66s, Average_precission: 0.307
+2024-06-20 22:10:04,384 - INFO - view1:
+2024-06-20 22:10:04,433 - INFO - view2:
+2024-06-20 22:10:07,385 - INFO - Epoch: 1, Avg_loss: 0.506, Duration: 1.76s, Average_precission: 0.273
+2024-06-20 22:10:08,764 - INFO - Epoch: 2, Avg_loss: 0.458, Duration: 0.58s, Average_precission: 0.293
+2024-06-20 22:10:09,839 - INFO - Epoch: 3, Avg_loss: 0.352, Duration: 0.58s, Average_precission: 0.312
+2024-06-20 22:10:10,898 - INFO - Epoch: 4, Avg_loss: 0.252, Duration: 0.58s, Average_precission: 0.446
+2024-06-20 22:10:11,903 - INFO - Epoch: 5, Avg_loss: 0.077, Duration: 0.58s, Average_precission: 0.367
+2024-06-20 22:10:12,995 - INFO - Epoch: 6, Avg_loss: 0.393, Duration: 0.66s, Average_precission: 0.296
+2024-06-20 22:10:14,003 - INFO - Epoch: 7, Avg_loss: 0.129, Duration: 0.58s, Average_precission: 0.436
+2024-06-20 22:10:15,039 - INFO - Epoch: 8, Avg_loss: 0.077, Duration: 0.58s, Average_precission: 0.234
+2024-06-20 22:10:16,040 - INFO - Epoch: 9, Avg_loss: 0.043, Duration: 0.58s, Average_precission: 0.322
+2024-06-20 22:10:17,067 - INFO - Epoch: 10, Avg_loss: 0.048, Duration: 0.58s, Average_precission: 0.374
+2024-06-20 22:10:18,095 - INFO - Epoch: 11, Avg_loss: 0.090, Duration: 0.61s, Average_precission: 0.341
+2024-06-20 22:10:19,120 - INFO - Epoch: 12, Avg_loss: 0.054, Duration: 0.60s, Average_precission: 0.410
+2024-06-20 22:10:20,139 - INFO - Epoch: 13, Avg_loss: 0.061, Duration: 0.60s, Average_precission: 0.303
+2024-06-20 22:10:21,169 - INFO - Epoch: 14, Avg_loss: 0.025, Duration: 0.61s, Average_precission: 0.333
+2024-06-20 22:10:22,208 - INFO - Epoch: 15, Avg_loss: 0.032, Duration: 0.62s, Average_precission: 0.292
+2024-06-20 22:10:23,282 - INFO - Epoch: 16, Avg_loss: 0.026, Duration: 0.61s, Average_precission: 0.429
+2024-06-20 22:10:24,299 - INFO - Epoch: 17, Avg_loss: 0.012, Duration: 0.60s, Average_precission: 0.350
+2024-06-20 22:10:25,323 - INFO - Epoch: 18, Avg_loss: 0.028, Duration: 0.61s, Average_precission: 0.562
+2024-06-20 22:10:26,342 - INFO - Epoch: 19, Avg_loss: 0.049, Duration: 0.61s, Average_precission: 0.394
+2024-06-20 22:10:27,354 - INFO - Epoch: 20, Avg_loss: 0.020, Duration: 0.60s, Average_precission: 0.302
+2024-06-20 22:12:31,667 - INFO - view1:
+2024-06-20 22:12:31,715 - INFO - view2:
+2024-06-20 22:12:34,701 - INFO - Epoch: 1, Avg_loss: 0.502, Duration: 1.79s, Average_precission: 0.375
+2024-06-20 22:12:36,081 - INFO - Epoch: 2, Avg_loss: 0.461, Duration: 0.58s, Average_precission: 0.286
+2024-06-20 22:12:37,145 - INFO - Epoch: 3, Avg_loss: 0.408, Duration: 0.59s, Average_precission: 0.259
+2024-06-20 22:12:38,165 - INFO - Epoch: 4, Avg_loss: 0.263, Duration: 0.59s, Average_precission: 0.267
+2024-06-20 22:12:39,223 - INFO - Epoch: 5, Avg_loss: 0.290, Duration: 0.59s, Average_precission: 0.266
+2024-06-20 22:12:40,243 - INFO - Epoch: 6, Avg_loss: 0.217, Duration: 0.60s, Average_precission: 0.351
+2024-06-20 22:12:41,317 - INFO - Epoch: 7, Avg_loss: 0.209, Duration: 0.60s, Average_precission: 0.355
+2024-06-20 22:12:42,336 - INFO - Epoch: 8, Avg_loss: 0.180, Duration: 0.60s, Average_precission: 0.357
+2024-06-20 22:12:43,362 - INFO - Epoch: 9, Avg_loss: 0.130, Duration: 0.61s, Average_precission: 0.268
+2024-06-20 22:12:44,440 - INFO - Epoch: 10, Avg_loss: 0.142, Duration: 0.61s, Average_precission: 0.227
+2024-06-20 22:12:45,474 - INFO - Epoch: 11, Avg_loss: 0.068, Duration: 0.61s, Average_precission: 0.318
+2024-06-20 22:12:46,506 - INFO - Epoch: 12, Avg_loss: 0.077, Duration: 0.59s, Average_precission: 0.343
+2024-06-20 22:12:47,546 - INFO - Epoch: 13, Avg_loss: 0.087, Duration: 0.62s, Average_precission: 0.279
+2024-06-20 22:12:48,570 - INFO - Epoch: 14, Avg_loss: 0.036, Duration: 0.60s, Average_precission: 0.348
+2024-06-20 22:12:49,585 - INFO - Epoch: 15, Avg_loss: 0.078, Duration: 0.59s, Average_precission: 0.348
+2024-06-20 22:12:50,678 - INFO - Epoch: 16, Avg_loss: 0.046, Duration: 0.61s, Average_precission: 0.294
+2024-06-20 22:12:51,724 - INFO - Epoch: 17, Avg_loss: 0.047, Duration: 0.61s, Average_precission: 0.302
+2024-06-20 22:12:52,749 - INFO - Epoch: 18, Avg_loss: 0.042, Duration: 0.61s, Average_precission: 0.292
+2024-06-20 22:12:53,767 - INFO - Epoch: 19, Avg_loss: 0.034, Duration: 0.61s, Average_precission: 0.352
+2024-06-20 22:12:54,794 - INFO - Epoch: 20, Avg_loss: 0.036, Duration: 0.61s, Average_precission: 0.286
+2024-06-20 22:13:26,742 - INFO - view1:
+2024-06-20 22:13:26,790 - INFO - view2:
+2024-06-20 22:13:29,746 - INFO - Epoch: 1, Avg_loss: 0.514, Duration: 1.76s, Average_precission: 0.249
+2024-06-20 22:13:30,992 - INFO - Epoch: 2, Avg_loss: 0.454, Duration: 0.59s, Average_precission: 0.263
+2024-06-20 22:13:32,060 - INFO - Epoch: 3, Avg_loss: 0.337, Duration: 0.59s, Average_precission: 0.247
+2024-06-20 22:13:33,073 - INFO - Epoch: 4, Avg_loss: 0.204, Duration: 0.59s, Average_precission: 0.415
+2024-06-20 22:13:34,095 - INFO - Epoch: 5, Avg_loss: 0.171, Duration: 0.59s, Average_precission: 0.295
+2024-06-20 22:13:35,100 - INFO - Epoch: 6, Avg_loss: 0.140, Duration: 0.58s, Average_precission: 0.450
+2024-06-20 22:13:36,100 - INFO - Epoch: 7, Avg_loss: 0.137, Duration: 0.58s, Average_precission: 0.432
+2024-06-20 22:13:37,097 - INFO - Epoch: 8, Avg_loss: 0.162, Duration: 0.58s, Average_precission: 0.499
+2024-06-20 22:13:38,103 - INFO - Epoch: 9, Avg_loss: 0.060, Duration: 0.59s, Average_precission: 0.547
+2024-06-20 22:13:39,126 - INFO - Epoch: 10, Avg_loss: 0.077, Duration: 0.58s, Average_precission: 0.372
+2024-06-20 22:13:40,140 - INFO - Epoch: 11, Avg_loss: 0.044, Duration: 0.60s, Average_precission: 0.334
+2024-06-20 22:13:41,144 - INFO - Epoch: 12, Avg_loss: 0.056, Duration: 0.58s, Average_precission: 0.536
+2024-06-20 22:13:42,171 - INFO - Epoch: 13, Avg_loss: 0.009, Duration: 0.61s, Average_precission: 0.378
+2024-06-20 22:13:43,206 - INFO - Epoch: 14, Avg_loss: 0.026, Duration: 0.61s, Average_precission: 0.390
+2024-06-20 22:13:44,241 - INFO - Epoch: 15, Avg_loss: 0.054, Duration: 0.61s, Average_precission: 0.389
+2024-06-20 22:13:45,329 - INFO - Epoch: 16, Avg_loss: 0.075, Duration: 0.60s, Average_precission: 0.427
+2024-06-20 22:13:46,362 - INFO - Epoch: 17, Avg_loss: 0.149, Duration: 0.62s, Average_precission: 0.500
+2024-06-20 22:13:47,390 - INFO - Epoch: 18, Avg_loss: 0.035, Duration: 0.61s, Average_precission: 0.420
+2024-06-20 22:13:48,408 - INFO - Epoch: 19, Avg_loss: 0.038, Duration: 0.60s, Average_precission: 0.472
+2024-06-20 22:13:49,434 - INFO - Epoch: 20, Avg_loss: 0.041, Duration: 0.61s, Average_precission: 0.392

@@ -3,7 +3,6 @@ import random, time, operator
 import os 
 import torch 
 from utils import _load_vocab
-from utils import load_audio
 from torch.utils.data import Dataset,DataLoader
 import librosa
 import numpy as np 
@@ -107,6 +106,15 @@ def pad_mfccs(mfccs, max_len):
 def pad_sequence(sequences, batch_first=False, padding_value=0):
     return torch.nn.utils.rnn.pad_sequence(sequences, batch_first=batch_first, padding_value=padding_value)
 
+def pad_batch_sequence(batch, padding_value=0):
+    padded_batch = []
+    for sequences in batch:
+        sequences = [torch.tensor(seq) for seq in sequences]
+        padded_sequences = pad_sequence(sequences, batch_first=True, padding_value=padding_value)
+        padded_batch.append(padded_sequences)
+    
+    return torch.stack(padded_batch)
+
 def collate_fn(batch):
 
     mfccs_x1= []
@@ -150,7 +158,7 @@ def collate_fn(batch):
     
     return result 
 
-def get_loader(csv_file,batch_size,loss_fn):
+def get_train_loader(csv_file,batch_size,loss_fn):
 
     dataset=MultiViewDataset(csv_file=csv_file,loss_fn=loss_fn)
 
@@ -158,15 +166,100 @@ def get_loader(csv_file,batch_size,loss_fn):
 
     return loader
 
-
-
-
-#TODO: Dev and Test DataLoader        
 class MultiviewDevDataset(Dataset):
 
-    def __init__():
-        pass 
-    def __len__():
-        pass 
-    def __getitem__():
-        pass 
+    def __init__(self,csv_file,n_mfcc=13):
+        self.data=pd.read_csv(csv_file)
+        self.dir_path=os.path.dirname(csv_file)
+        self.vocab_dict=VOCAB_DICT
+        self.n_mfcc=n_mfcc
+
+    def __len__(self):
+        return len(self.data)
+    
+    def char_to_idx(self,transcript):
+        
+        one_hot=torch.zeros(len(transcript),len(self.vocab_dict))
+        for i,char in enumerate(transcript):
+            one_hot[i,self.vocab_dict[char]]=1 
+        
+        return one_hot
+    
+    def compute_mfcc(self,audio_path):
+
+        y,sr=librosa.load(audio_path)
+
+        n_fft = min(2048, len(y))
+        hop_length = n_fft // 4
+
+        mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=self.n_mfcc, n_fft=n_fft, hop_length=hop_length)
+
+        width = min(9, mfccs.shape[1])
+        if width < 3:
+            width = 3
+        
+        width = min(width, mfccs.shape[1])
+
+        if width % 2 == 0:
+            width -= 1
+
+        
+        delta1=librosa.feature.delta(mfccs,order=1,width=width)
+        delta2=librosa.feature.delta(mfccs,order=2,width=width)
+
+        mfccs_combined=np.concatenate((mfccs,delta1,delta2),axis=0)
+
+        return mfccs_combined
+    
+    def __getitem__(self,idx):
+        
+        audio_path_x1=self.data["audio_path"][idx]
+        audio_path_x1=os.path.join(self.dir_path,str(audio_path_x1))
+
+        #mfcc 
+        audio_mfcc=self.compute_mfcc(audio_path_x1)
+
+        sample_dict=ast.literal_eval(self.data["sampled_words"][idx])
+        lev_scores=[]
+        for score in sample_dict.keys():
+            for _ in range(len(sample_dict[score])):
+                lev_scores.append(score)
+
+        one_hot=[]
+        for transcripts in sample_dict.values():
+            for transcript in transcripts:
+                one_hot.append(self.char_to_idx(transcript))
+        
+        output_tensor=[torch.tensor(audio_mfcc),one_hot,torch.tensor(lev_scores)]
+
+        return output_tensor
+        
+def dev_collate_fn(batch):
+    
+    mfccs_x1=[]
+    one_hot=[]
+    lev_scores=[]
+
+    for item in batch:
+        mfcc_x1,oh,lev_score=item[0],item[1],item[2]
+        mfccs_x1.append(mfcc_x1)
+        one_hot.append(oh)
+        lev_scores.append(lev_score)
+    
+    max_mfcc_len_x1=max(mfcc.shape[1] for mfcc in mfccs_x1)
+    mfccs_x1=pad_mfccs(mfccs_x1,max_mfcc_len_x1)
+
+    one_hot=pad_batch_sequence(one_hot)
+
+    results={"mfcc":mfccs_x1,"sampled_one_hot":one_hot,"lev_scores":torch.stack(lev_scores)}
+
+    return results
+
+def get_dev_loader(csv_file,batch_size):
+    
+    dev_dataset=MultiviewDevDataset(csv_file=csv_file)
+
+    dev_loader=DataLoader(dev_dataset, batch_size=batch_size, collate_fn=dev_collate_fn)
+
+    return dev_loader
+    

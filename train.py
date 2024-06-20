@@ -2,9 +2,10 @@ import torch
 import torch.nn as nn 
 import torch.optim as optim 
 from utils import save_checkpoint,load_checkpoint,_load_config
-from dataset import get_loader
+from dataset import get_train_loader,get_dev_loader
 from model import MultiViewRNN
 from loss import contrastive_loss
+from metrics import crossview_ap
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 import time
@@ -20,15 +21,19 @@ if not os.path.exists(logs_dir):
 logging.basicConfig(filename=os.path.join(logs_dir, 'training.log'), level=logging.INFO, 
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
-def train(csv_file):
+def train(train_csv_file,dev_csv_file):
 
     config_file=_load_config()
 
-    train_loader=get_loader(
-        csv_file=csv_file,
-        batch_size=config_file["batch_size"],
+    train_loader=get_train_loader(
+        csv_file=train_csv_file,
+        batch_size=config_file["train_batch_size"],
         loss_fn=config_file["loss_fn"])
 
+    dev_loader=get_dev_loader(
+        csv_file=dev_csv_file,
+        batch_size=config_file["dev_batch_size"]
+    )
     #flags 
     load_model=False 
     save_model=True
@@ -43,10 +48,10 @@ def train(csv_file):
     if load_model:
         step = load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
-    model.train()
 
     for epoch in range(config_file["num_epochs"]):
-
+        
+        model.train()
         start=time.time()
         avg_loss=0
         
@@ -76,14 +81,54 @@ def train(csv_file):
             optimizer.step()
 
             avg_loss+=loss
+
+        
+        avg_loss=avg_loss/len(train_loader)
+        writer.add_scalar("Average loss per epoch", avg_loss, global_step=epoch)
+
+        print("Evaluating Dev")
+        model.eval()
+        average_ap=0
+        for idx,batch in tqdm(
+            enumerate(dev_loader), total=len(dev_loader), leave=False
+        ):
+           
+           mfcc=batch["mfcc"]
+           mfcc=mfcc.view(-1,mfcc.shape[2],mfcc.shape[1])
+           mfcc=mfcc.to(DEVICE)
+           mfcc_input={"view1_x1":mfcc}
+           audio_emb=model(mfcc_input)["x1"] 
+
+           input_text_tensor=batch["sampled_one_hot"]
+           batch_size=input_text_tensor.shape[0]
+           sampled_shape=input_text_tensor.shape[1]
+           input_text_tensor=input_text_tensor.view(input_text_tensor.shape[0]*sampled_shape,
+                                                    input_text_tensor.shape[2],
+                                                    input_text_tensor.shape[3])
+           input_text_tensor=input_text_tensor.to(DEVICE)
+           input_one_hot={"view2_c1":input_text_tensor}
+           out_one_hot=model(input_one_hot)["c1"]
+           text_emb=out_one_hot.view(batch_size,
+                                     sampled_shape,
+                                     out_one_hot.shape[1])
+           
+           lev_distances=batch["lev_scores"].to(DEVICE)
+           
+           ranked_ap=crossview_ap(audio_embedding=audio_emb,
+                                  text_embedding=text_emb,
+                                  lev_distances=lev_distances)
+           average_ap+=ranked_ap
         
         end=time.time()
         time_taken_per_epoch=end-start
+
+        average_precision=average_ap/len(dev_loader)
         
-        avg_loss=avg_loss/len(train_loader)
-        print(f"Epoch: {epoch+1}===================Avg_loss: {avg_loss:.3f}, Duration: {time_taken_per_epoch}")
-        writer.add_scalar("Average loss per epoch", avg_loss, global_step=epoch)
-        logging.info(f"Epoch: {epoch+1}, Avg_loss: {avg_loss:.3f}, Duration: {time_taken_per_epoch:.2f}s")
+        print(f"Epoch: {epoch+1}===================Avg_loss: {avg_loss:.3f}, Duration: {time_taken_per_epoch}, Average_P: {average_precision:.3f}")
+
+        writer.add_scalar("Average precission per epoch", average_precision, global_step=epoch)
+
+        logging.info(f"Epoch: {epoch+1}, Avg_loss: {avg_loss:.3f}, Duration: {time_taken_per_epoch:.2f}s, Average_precission: {average_precision:.3f}")
 
         if save_model:
             checkpoint={
@@ -92,11 +137,12 @@ def train(csv_file):
                 "step": step
             }
             save_checkpoint(checkpoint, filename=f"checkpoint_epoch_{epoch+1}.pth.tar")
+        
+        
 
     writer.close()
 if __name__=='__main__':
-    csv_file='/home/ubuntu/acoustic_stuff/hindi-acoustic-word-embedding/dataset/sampled_metadata.csv'
-    train(csv_file)
+    train_csv_file='/home/ubuntu/acoustic_stuff/hindi-acoustic-word-embedding/dataset/sampled_metadata.csv'
+    dev_csv_file='/home/ubuntu/acoustic_stuff/hindi-acoustic-word-embedding/dataset/sampled_devset.csv'
+    train(train_csv_file,dev_csv_file)
 
-
-    

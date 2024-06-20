@@ -176,9 +176,21 @@ class MultiViewRNN(nn.Module):
             return self.net["view1"].output_size
          
     def forward(self,batch):
-        view1_in_x1=batch["view1_x1"]
-        view2_in_c1=batch["view2_c1"]
         out_dict={}
+        
+        if "view1_x1" in batch:
+            view1_in_x1=batch["view1_x1"]
+            view1_out_x1=self.net["view1"](view1_in_x1)
+            out_dict["x1"]=view1_out_x1
+        else:
+            out_dict["x1"]=None 
+        
+        if "view2_c1" in batch:
+            view2_in_c1=batch["view2_c1"]
+            view2_out_c1=self.net["view2"](view2_in_c1)
+            out_dict["c1"]=view2_out_c1
+        else:
+            out_dict["c1"]=None
 
         if "view1_x2" in batch:
             view1_in_x2=batch["view2_x2"]
@@ -193,12 +205,6 @@ class MultiViewRNN(nn.Module):
             out_dict["c2"]=view2_out_c2
         else:
             out_dict["c2"]=None 
-
-        view1_out_x1=self.net["view1"](view1_in_x1)
-        view2_out_c1=self.net["view2"](view2_in_c1)
-
-        out_dict["x1"]=view1_out_x1
-        out_dict["c1"]=view2_out_c1
 
         return out_dict
 
