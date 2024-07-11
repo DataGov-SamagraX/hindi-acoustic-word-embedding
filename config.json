@@ -1,29 +1,39 @@
 {
   "init_type": "kaiming_uniform",
   "view1": {
-    "cell_type": "lstm",
-    "input_size": 39,
-    "hidden_size": 512,
-    "num_layers": 2,
-    "bidirectional": true,
-    "dropout": 0.2,
-    "proj": 1024
+      "cell_type": "lstm",
+      "input_size": 39,
+      "hidden_size": 512,
+      "num_layers": 2,
+      "bidirectional": true,
+      "dropout": 0.4,
+      "proj": 1024
   },
   "view2": {
-    "cell_type": "lstm",
-    "num_embeddings": 10000,
-    "input_size": 83,
-    "hidden_size": 512,
-    "num_layers": 2,
-    "bidirectional": true,
-    "dropout": 0.2,
-    "proj": 512
+      "cell_type": "lstm",
+      "num_embeddings": 10000,
+      "input_size": 83,
+      "hidden_size": 512,
+      "num_layers": 2,
+      "bidirectional": true,
+      "dropout": 0.4,
+      "proj": 512
   },
   "proj": 128,
-  "loss_fn":[0],
-  "margin":0.5,
-  "lr":3e-4,
-  "train_batch_size":4,
-  "dev_batch_size":4,
-  "num_epochs":20
+  "loss_fn": [
+      0,
+      2
+  ],
+  "margin": 0.5,
+  "t_max": 9,
+  "lr": 0.01,
+  "weight_decay": 0.01,
+  "train_batch_size": 64,
+  "dev_batch_size": 32,
+  "num_epochs": 1000,
+  "max_mfcc_train": 175,
+  "max_mfcc_dev": 194,
+  "warmup_period": 2000,
+  "beta1":0.9,
+  "beta2":0.999
 }

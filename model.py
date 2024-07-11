@@ -4,8 +4,11 @@ import json
 import logging as log 
 import torch.nn as nn 
 import torch.nn.functional as F 
+from utils import set_seed
+from huggingface_hub import PyTorchModelHubMixin
 
-class RNN_default(nn.Module):
+
+class RNN_default(nn.Module,PyTorchModelHubMixin):
     def __init__(self,
                  cell_type,
                  input_size,
@@ -15,6 +18,7 @@ class RNN_default(nn.Module):
                  dropout,
                  proj,
                  init_type,
+                 seed=42
                  ):
         super(RNN_default,self).__init__()
 
@@ -47,10 +51,12 @@ class RNN_default(nn.Module):
             )
         else:
             raise ValueError("Invalid RNN cell type")
+        
+        self.reset_parameters(seed)
     
-    def reset_parameters(self):
+    def reset_parameters(self,seed):
         if self.init_type == "kaiming_uniform":
-            for name, param in self.lstm.named_parameters():
+            for name, param in self.rnn.named_parameters():
                 if "weight_ih" in name:
                     nn.init.kaiming_uniform_(param, a=math.sqrt(5))
                 elif "weight_hh" in name:
@@ -58,7 +64,7 @@ class RNN_default(nn.Module):
                 elif "bias" in name:
                     nn.init.zeros_(param)
         elif self.init_type == "kaiming_normal":
-            for name, param in self.lstm.named_parameters():
+            for name, param in self.rnn.named_parameters():
                 if "weight_ih" in name:
                     nn.init.kaiming_normal_(param, a=0, mode="fan_in")
                 elif "weight_hh" in name:
@@ -66,7 +72,7 @@ class RNN_default(nn.Module):
                 elif "bias" in name:
                     nn.init.zeros_(param)
         elif self.init_type == "xavier_uniform":
-            for name, param in self.lstm.named_parameters():
+            for name, param in self.rnn.named_parameters():
                 if "weight_ih" in name:
                     nn.init.xavier_uniform_(param)
                 elif "weight_hh" in name:
@@ -74,7 +80,7 @@ class RNN_default(nn.Module):
                 elif "bias" in name:
                     nn.init.zeros_(param)
         elif self.init_type == "xavier_normal":
-            for name, param in self.lstm.named_parameters():
+            for name, param in self.rnn.named_parameters():
                 if "weight_ih" in name:
                     nn.init.xavier_normal_(param)
                 elif "weight_hh" in name:
@@ -83,6 +89,13 @@ class RNN_default(nn.Module):
                     nn.init.zeros_(param)
         else:
             raise ValueError(f"Invalid initialization type: {self.init_type}")
+        
+        """set_seed(seed)  
+        for name, param in self.rnn.named_parameters():
+            if "weight" in name:
+                nn.init.uniform_(param, -0.05, 0.05)
+            elif "bias" in name:
+                nn.init.zeros_(param)"""
     
     def forward(self,x):
         
@@ -93,8 +106,8 @@ class RNN_default(nn.Module):
         
         return out 
 
-class Linear(nn.Module):
-    def __init__(self, input_size, output_size,init_type):
+class Linear(nn.Module,PyTorchModelHubMixin):
+    def __init__(self, input_size, output_size,init_type,seed=42):
         super(Linear, self).__init__()
 
         self.input_size = input_size
@@ -102,8 +115,10 @@ class Linear(nn.Module):
         self.init_type=init_type
 
         self.linear = nn.Linear(input_size, output_size)
+        self.reset_parameters(seed)
+
     
-    def reset_parameters(self):
+    def reset_parameters(self,seed):
         if self.init_type == "kaiming_uniform":
             nn.init.kaiming_uniform_(self.weight, a=math.sqrt(5))
             if self.bias is not None:
@@ -123,12 +138,18 @@ class Linear(nn.Module):
             if self.bias is not None:
                 nn.init.zeros_(self.bias)
         else:
-            raise ValueError(f"Invalid initialization type: {self.init_type}")
-
+            raise ValueError(f"Invalid initialization type: {self.init_type}")       
+        """set_seed(seed)  
+        for name, param in self.rnn.named_parameters():
+            if "weight" in name:
+                nn.init.uniform_(param, -0.05, 0.05)
+            elif "bias" in name:
+                nn.init.zeros_(param)"""
+        
     def forward(self, x):
         return self.linear(x)
 
-class MultiViewRNN(nn.Module):
+class MultiViewRNN(nn.Module,PyTorchModelHubMixin):
     def __init__(self,config_file):
 
         nn.Module.__init__(self)
@@ -193,7 +214,7 @@ class MultiViewRNN(nn.Module):
             out_dict["c1"]=None
 
         if "view1_x2" in batch:
-            view1_in_x2=batch["view2_x2"]
+            view1_in_x2=batch["view1_x2"]
             view1_out_x2=self.net["view1"](view1_in_x2)
             out_dict["x2"]=view1_out_x2
         else:
@@ -220,4 +241,5 @@ if __name__=="__main__":
     out=model(data_dict)
 
     print(out["x1"].shape,out["c1"].shape)
+
 

@@ -18,7 +18,8 @@ class Model:
 
     _instance = None
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    MODEL_ID = "facebook/mms-1b-all"
+    #MODEL_ID = "facebook/mms-1b-all"
+    MODEL_ID = "ai4bharat/indicwav2vec-hindi"
 
     def __new__(cls, *args, **kwargs):
         """
@@ -28,10 +29,10 @@ class Model:
             cls._instance = super().__new__(cls)
             cls._instance.model = Wav2Vec2ForCTC.from_pretrained(cls.MODEL_ID).to(cls.DEVICE)
             cls._instance.processor = Wav2Vec2Processor.from_pretrained(cls.MODEL_ID)
-            cls._instance.processor.tokenizer.set_target_lang("hin")
-            cls._instance.model.load_adapter("hin")
+            #cls._instance.processor.tokenizer.set_target_lang("hin")
+            #cls._instance.model.load_adapter("hin")
             cls._instance.tokenizer = AutoTokenizer.from_pretrained(cls.MODEL_ID)
-            cls._instance.tokenizer.set_target_lang("hin")
+            #cls._instance.tokenizer.set_target_lang("hin")
 
         return cls._instance
 

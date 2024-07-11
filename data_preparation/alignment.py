@@ -9,8 +9,8 @@ from model import Model
 from audio import load_audio,SAMPLE_RATE
 from utils import Point,Segment
 
-
-def force_align(self,input_path:str,transcript:str,output_dir:str,alignment_duration=None):
+#output_dir:str,alignment_duration=None
+def force_align(input_path:str,transcript:str):
         """
         Perform force alignment on the input audio file with the given transcript.
         Args:
@@ -20,28 +20,30 @@ def force_align(self,input_path:str,transcript:str,output_dir:str,alignment_dura
         Returns:
         None
         """
+        model=_load_model()
+        
         #loading_audio
         audio=load_audio(input_path)
-        token_ids=self.model.tokenize(transcript)
+        token_ids=model.tokenize(transcript)
         preprocessed_transcript=transcript.replace(" ","|")
 
         #force_alignment
-        emission=self.model.inference(audio)
-        graph=self._compose_graph(emission,token_ids)
-        path=self._backtrack(graph,emission,token_ids)
-        segments =self._merge_repeats(path,preprocessed_transcript)
+        emission=model.inference(audio)
+        graph=compose_graph(emission,token_ids)
+        path=backtrack(graph,emission,token_ids)
+        segments=merge_repeats(path,preprocessed_transcript)
 
         #folder
-        if not os.path.exists(output_dir):
+        """if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
         folder_path=os.path.join(output_dir,self._extract_base(input_path))
         json_path=os.path.join(folder_path,"metadata.json")
 
         if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
+            os.makedirs(folder_path)"""
 
-        if alignment_duration:
+        """if alignment_duration:
 
             dur_segment=self._get_seg_duration(segments,SAMPLE_RATE,audio,graph)
             segment_chunks,audio_segments=self._chunk_and_merge_segments(dur_segment,alignment_duration)
@@ -76,41 +78,40 @@ def force_align(self,input_path:str,transcript:str,output_dir:str,alignment_dura
 
             json_dict["original_file_path"]=input_path
             json_dict["original_transcript"]=transcript
-            json_dict["audio_segments"]=segment_list
+            json_dict["audio_segments"]=segment_list"""
 
-        else:
+        word_segments=merge_words(segments)
+        audio_segments=generate_audio_segments(audio,graph,word_segments,SAMPLE_RATE)
 
-            word_segments=self._merge_words(segments)
+        #preparing audio segments
+        """json_dict={}
+        segment_list=[]
 
-            #preparing audio segments
-            json_dict={}
-            segment_list=[]
-
-            audio_segments=self._generate_audio_segments(audio,graph,word_segments,SAMPLE_RATE)
-
-            segment_paths=[]
-            for i in range(len(audio_segments)):
+        segment_paths=[]
+        for i in range(len(audio_segments)):
                 segment_paths.append(os.path.join(folder_path,f"segment_{i}.wav"))
 
 
-            for i in range(len(segment_paths)):
-                segment_dict={}
-                segment_dict["word_label"]=audio_segments[i][0]
-                segment_dict["duration"]=audio_segments[i][1]
-                segment_dict["file_path"]=segment_paths[i]
-                segment_list.append(segment_dict)
+        for i in range(len(segment_paths)):
+            segment_dict={}
+            segment_dict["word_label"]=audio_segments[i][0]
+            segment_dict["duration"]=audio_segments[i][1]
+            segment_dict["file_path"]=segment_paths[i]
+            segment_list.append(segment_dict)
 
-                wave_form=audio_segments[i][2]
-                write(segment_paths[i],8000,wave_form)
+            wave_form=audio_segments[i][2]
+            write(segment_paths[i],8000,wave_form)
 
-            json_dict["original_file_path"]=input_path
-            json_dict["original_transcript"]=transcript
-            json_dict["audio_segments"]=segment_list 
+        json_dict["original_file_path"]=input_path
+        json_dict["original_transcript"]=transcript
+        json_dict["audio_segments"]=segment_list 
 
         with open(json_path,'w') as json_file:
             json.dump(json_dict,json_file,indent=4)
 
-        #print(f"Force Alignment complete files save at {folder_path}")
+        #print(f"Force Alignment complete files save at {folder_path}")"""
+
+        return audio_segments
 
 
 
@@ -338,4 +339,3 @@ def _extract_base(path):
     
     filename = os.path.basename(path)
     return os.path.splitext(filename)[0]
-

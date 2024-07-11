@@ -3,18 +3,12 @@ import subprocess
 import json 
 import numpy as np
 import os
-
-
-def load_audio():
-    pass 
-
-def average_precision():
-    pass 
+import random
 
 def save_checkpoint(state,filename):
     print("=> saving checkpoint")
 
-    checkpoint_dir = "checkpoints"
+    checkpoint_dir = "checkpoints7"
     if not os.path.exists(checkpoint_dir):
         os.makedirs(checkpoint_dir)
     
@@ -54,3 +48,11 @@ def extract_root_path(file_path):
     
     return root_directory_path
 
+def set_seed(seed=42):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed) 
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
