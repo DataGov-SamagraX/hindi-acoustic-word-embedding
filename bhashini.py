@@ -5,10 +5,10 @@ import os
 import json
 import time
 
-root_path = '/home/ubuntu/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset'
-df = pd.read_csv('/home/ubuntu/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset/reduced_metadata.csv')
+root_path = '/root/suyash/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset/'
+df = pd.read_csv(os.path.join(root_path,'left_out_audios.csv'))
 batch_size = 500
-output_dir = '/home/ubuntu/acoustic_stuff/hindi-acoustic-word-embedding/bhashini_transcripts'
+output_dir = '/root/suyash/acoustic_stuff/hindi-acoustic-word-embedding/bhashini_transcripts'
 
 os.makedirs(output_dir, exist_ok=True)
 

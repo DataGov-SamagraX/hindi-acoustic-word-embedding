@@ -1,3 +1,8 @@
-data_preparation/audio
-data_preparation/audio_metadata.csv
-/home/suyash/bharataisahayak/hindi-acoustic-word-embedding/data_preparation/transcription.txt
+dataset/
+checkpoints8/
+train_dataset/
+whisper-tiny-ct2/
+runs/
+checkpoints7/
+bhashini_transcripts/
+

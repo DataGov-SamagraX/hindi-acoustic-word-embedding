@@ -5,9 +5,9 @@ import os
 from scipy.io.wavfile import write
 import pandas as pd 
 
-from model import Model 
-from audio import load_audio,SAMPLE_RATE
-from utils import Point,Segment
+from .model import Model 
+from .audio import load_audio,SAMPLE_RATE
+from .utils import Point,Segment
 
 #output_dir:str,alignment_duration=None
 def force_align(input_path:str,transcript:str):
@@ -161,7 +161,7 @@ def backtrack(graph,emission,tokens,blank_id=0):
 
     path=[Point(j,t,emission[t,blank_id].exp().item())]
     while j>0:
-
+        
         assert t>0
 
         p_stay=emission[t-1,blank_id]
@@ -170,8 +170,8 @@ def backtrack(graph,emission,tokens,blank_id=0):
         stayed=graph[t-1,j]+p_stay
         changed=graph[t-1,j-1]+p_change
 
-        stayed=graph[t-1,j]+p_stay
-        changed=graph[t-1,j-1]+p_change
+        #stayed=graph[t-1,j]+p_stay
+        #changed=graph[t-1,j-1]+p_change
 
         t-=1
         if changed>stayed:

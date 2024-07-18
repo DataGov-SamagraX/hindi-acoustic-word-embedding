@@ -4,6 +4,7 @@ from alignment import force_align
 from audio import SAMPLE_RATE
 from tqdm import tqdm 
 import os 
+
 def align_dataset(dataset_path,output_path):
     
     df=pd.read_csv(dataset_path)

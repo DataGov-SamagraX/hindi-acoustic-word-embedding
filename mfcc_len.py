@@ -80,8 +80,8 @@ def get_max_mfcc_length(dataset_path, n_mfcc=13, batch_size=8000,flag="dev"):
 ray.shutdown()
 
 if __name__=='__main__':
-    root_path='/home/ubuntu/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset'
-    dev_csv='sample_bhashini_dev.csv'
-    train_csv='sample_bhashini_train.csv'
+    root_path='/root/suyash/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset'
+    dev_csv='sample_dev_01.csv'
+    train_csv='sample_train_01.csv'
     get_max_mfcc_length(os.path.join(root_path,train_csv),flag="train")
     get_max_mfcc_length(os.path.join(root_path,dev_csv),flag="dev")

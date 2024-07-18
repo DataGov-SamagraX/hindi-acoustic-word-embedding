@@ -8,7 +8,7 @@ import random
 def save_checkpoint(state,filename):
     print("=> saving checkpoint")
 
-    checkpoint_dir = "checkpoints7"
+    checkpoint_dir = "checkpoints8"
     if not os.path.exists(checkpoint_dir):
         os.makedirs(checkpoint_dir)
     

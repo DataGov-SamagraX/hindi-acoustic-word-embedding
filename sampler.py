@@ -190,9 +190,9 @@ def sample_dev_words_initial(path):
 if __name__=='__main__':
     #sample_negatives_optimized('/home/ubuntu/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset/train_reduced_data.csv')
     #sample_dev_words('/home/ubuntu/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset/reduced_dev_data.csv')
-    sample_negative('/home/ubuntu/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset/sample_bhashini_train.csv')
-    sample_dev_words('/home/ubuntu/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset/sample_bhashini_dev.csv')
-    sample_negative('/home/ubuntu/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset/sample_bhashini_dev.csv')
+    sample_negative('/root/suyash/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset/sample_train_01.csv')
+    sample_dev_words('/root/suyash/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset/sample_dev_01.csv')
+    sample_negative('/root/suyash/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset/sample_train_01.csv')
 
 
 

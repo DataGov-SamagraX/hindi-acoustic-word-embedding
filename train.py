@@ -54,9 +54,9 @@ def train(train_csv_file,dev_csv_file):
     steps_per_epoch=len(train_loader)
     warmup_period=config_file['warmup_period']
     num_steps=steps_per_epoch*config_file['num_epochs']-warmup_period
-    t0=num_steps//3
+    t0=num_steps//5
     lr_min=3e-5
-    max_steps=t0*3+warmup_period
+    max_steps=t0*5+warmup_period
 
     lr_scheduler=optim.lr_scheduler.CosineAnnealingWarmRestarts(
         optimizer, T_0=t0, T_mult=1, eta_min=lr_min
@@ -230,7 +230,7 @@ def train(train_csv_file,dev_csv_file):
         average_precision=average_precision/len(dev_loader)
         average_corr=average_corr/len(dev_loader)
 
-        avg_dev_loss+=avg_dev_loss/len(dev_loader)
+        avg_dev_loss=avg_dev_loss/len(dev_loader)
 
         #scheduler.step(average_precision)
         
@@ -266,8 +266,8 @@ def train(train_csv_file,dev_csv_file):
 
 
 if __name__=='__main__':
-    train_csv_file='/home/ubuntu/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset/sample_bhashini_train.csv'
-    dev_csv_file='/home/ubuntu/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset/sample_bhashini_dev.csv'
+    train_csv_file='/root/suyash/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset/sample_train_01.csv'
+    dev_csv_file='/root/suyash/acoustic_stuff/hindi-acoustic-word-embedding/dataset/train_aligned_dataset/sample_dev_01.csv'
     train(train_csv_file,dev_csv_file)
 
 
