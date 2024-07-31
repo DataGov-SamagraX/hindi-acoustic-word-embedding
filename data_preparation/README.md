@@ -3,8 +3,8 @@ Force alignment in audio data processing refers to the process of synchronizing 
 generating dataset for **acoutic word embedding**. 
 
 **This is the tool for force alignment of hindi audio 💪**
+![Screenshot from 2024-04-28 16-47-25](https://github.com/user-attachments/assets/a01bdca5-00ab-408a-9be0-eaaff3251f0b)
 
-![Screenshot from 2024-04-28 16-47-25](https://github.com/xorsuyash/hindi-acoustic-word-embedding/assets/98162846/0076c28e-5266-4961-af75-3a1669a9de23)
 
 # How to run the project 
 * Create and activate either virtual enviroment or conda enviroment.
